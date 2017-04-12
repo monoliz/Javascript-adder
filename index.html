@@ -15,10 +15,6 @@
             <label for="second" class="pull-left">Second number</label>
             <input type="number" class="form-control" id="second" >
         </div>
-        <button class="btn btn-primary btn-lg glyphicon glyphicon-plus" onclick="Add()"></button>
-        <button class="btn btn-success btn-lg glyphicon glyphicon-minus" onclick="Subtract()"></button>
-        <button class="btn btn-warning btn-lg glyphicon glyphicon-remove" onclick="Multiply()"></button>
-        <button class="btn btn-danger btn-lg glyphicon glyphicon-th" onclick="Divide()"></button>   
         <h1 id="result"></h1>
         <div class="btn-group">
             <button type="button" class="btn btn-lg btn-default">Choose an action</button>
@@ -27,54 +23,74 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu">
-                <li><button class="btn btn-primary btn-block" onclick="Add()">Add</button></li>
-                <li><button class="btn btn-success btn-block" onclick="Subtract()">Subtract</button></li>
-                <li><button class="btn btn-warning btn-block" onclick="Multiply()">Multiply</button></li>
-                <li><button class="btn btn-danger btn-block" onclick="Divide()">Divide</button></li>
+                <li><a id="add" onclick="calculate(event)">Add</a></li>
+                <li><a id="sub" onclick="calculate(event)">Subtract</a></li>
+                <li><a id="mult" onclick="calculate(event)">Multiply</a></li>
+                <li><a id="divide" onclick="calculate(event)">Divide</a></li>
             </ul>
-        </div>    
+        </div>
     </div>
 
 <script>
-  function Add() {
+function calculate(e) {
+  var x = document.getElementById("first").value;
+  var y = document.getElementById("second").value;
+
+  switch (e.target.id) {
+    case 'add':
+      break;
+    case 'mult':
+    case 'sub':
+    case 'divide':
+  }
+  // console.log(e.target);
+  var text = '';
+  if (x === '' || y === '') {
+    sum = "Please enter BOTH numbers";
+  };
+  this.add = function () {
+    this.text = Number(x) + Number(y);
+  };
+  document.getElementById("result").innerHTML = sum;
+}
+  /*function Add() {
     var x = document.getElementById("first").value;
-    var y = document.getElementById("second").value;  
+    var y = document.getElementById("second").value;
     var sum = Number(x) + Number(y);
     if (x === '' || y === '') {
       sum = "Please enter BOTH numbers";
     };
     document.getElementById("result").innerHTML = sum;
   }
-
   function Subtract() {
     var x = document.getElementById("first").value;
-    var y = document.getElementById("second").value;  
+    var y = document.getElementById("second").value;
     var sub = Number(x) - Number(y);
     if (x === '' || y === '') {
       sub = "Please enter BOTH numbers";
     };
     document.getElementById("result").innerHTML = sub;
-  }   
-    
+  }
+
   function Multiply() {
     var x = document.getElementById("first").value;
-    var y = document.getElementById("second").value;  
+    var y = document.getElementById("second").value;
     var mul = Number(x) * Number(y);
     if (x === '' || y === '') {
       mul = "Please enter BOTH numbers";
     };
     document.getElementById("result").innerHTML = mul;
-  }        
-    
+  }
+
   function Divide() {
     var x = document.getElementById("first").value;
-    var y = document.getElementById("second").value;  
+    var y = document.getElementById("second").value;
     var div = (Number(x) / Number(y)).toFixed(2);
     if (x === '' || y === '') {
       div = "Please enter BOTH numbers";
     };
     document.getElementById("result").innerHTML = div;
-  }        
+  }*/
 </script>
 
 </body>
