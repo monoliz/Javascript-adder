@@ -5,7 +5,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <body>
-    <div class="col-md-4 col-md-offset-4" style="text-align: center;margin-top:200px">
+    <div class="col-md-4 col-md-offset-4" style="text-align: center; margin-top:150px" id="form">
         <div class="form-group">
             <label for="first" class="pull-left">First number</label>
             <input type="number" class="form-control" id="first" >
@@ -13,6 +13,10 @@
         <div class="form-group">
             <label for="second" class="pull-left">Second number</label>
             <input type="number" class="form-control" id="second" >
+        </div>
+        <div class="form-group">
+            <label for="second" class="pull-left">Fields number</label>
+            <input type="number" class="form-control" id="number" >
         </div>
         <h1 id="result"></h1>
         <div class="btn-group">
@@ -25,9 +29,13 @@
                 <li><a id="add" onclick="calculate(event)">Add</a></li>
                 <li><a id="sub" onclick="calculate(event)">Subtract</a></li>
                 <li><a id="mult" onclick="calculate(event)">Multiply</a></li>
-                <li><a id="divide" onclick="calculate(event)">Divide</a></li>
+                <li><a id="div" onclick="calculate(event)">Divide</a></li>
             </ul>
         </div>
+        <button id="create" class="btn btn-lg" style="background:#00FF7F; margin-left:20px" onclick="create()">Generate fields</button>
+        <div id="container" class="col-md-3" style="margin-top:30px"> </div>
+        <div id="container2" class="col-md-3" style="margin-top:30px"> </div>
+        <div id="container3" class="col-md-3" style="margin-top:30px"> </div>
     </div>
 <script>
 function calculate(e) {
@@ -41,14 +49,66 @@ function calculate(e) {
     break;      
     case 'sub': text = Number(x) - Number(y)
     break;      
-    case 'divide': text = Number(x) / Number(y)
+    case 'div': text = Number(x) / Number(y)
     break;      
   }
   if (x === '' || y === '') {
     text = "Please enter BOTH numbers";
   };
   document.getElementById("result").innerHTML = text;
-}
-</script>
-</body>
+};
+
+function create() {
+    var number = document.getElementById("number").value;
+    var container = document.getElementById("container");
+    var container2 = document.getElementById("container2");
+    while (container.hasChildNodes()) {
+        container.removeChild(container.lastChild);};
+    while (container2.hasChildNodes()) {
+        container2.removeChild(container2.lastChild);};
+    for (i=0;i<number;i++){
+        var input = document.createElement("input");
+        input.type = "number";
+        input.id = "number" + i;
+        input.value = Math.floor(1+Math.random()*99);          
+        input.className = "form-control";    
+        container.appendChild(input);
+        container.appendChild(document.createElement("br"));
+        
+        var action = document.createElement("input");
+        action.type = "text";
+        action.value = callRandomFunction();
+        action.id = "action" + i;
+        action.className = "form-control";    
+        container2.appendChild(action);
+        container2.appendChild(document.createElement("br")); 
+        };
+    container2.removeChild(container2.lastChild);
+    container2.removeChild(container2.lastChild);
+    
+    
+    }  
+    
+    
+    function callRandomFunction() {
+        var random = Math.floor(Math.random()*3 +1);
+        var text = '';
+        switch(random){    
+        case 1:
+        text = 'add'
+        break;
+        case 2:
+        text = 'mult'
+        break;
+        case 3:
+        text = 'sub'
+        break;
+        case 4:
+        text = 'div'
+        break;
+        } 
+        return text;
+    }   
+</script>    
+</body>        
 </html>
