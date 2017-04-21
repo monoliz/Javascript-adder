@@ -1,42 +1,16 @@
 <!DOCTYPE html>
 <html>
+    <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 <body>
-    <div class="col-md-4 col-md-offset-4" style="text-align: center; margin-top:150px" id="form">
-        <div class="form-group">
-            <label for="first" class="pull-left">First number</label>
-            <input type="number" class="form-control" id="first" >
-        </div>
-        <div class="form-group">
-            <label for="second" class="pull-left">Second number</label>
-            <input type="number" class="form-control" id="second" >
-        </div>
-        <div class="form-group">
-            <label for="second" class="pull-left">Fields number</label>
-            <input type="number" class="form-control" id="number" >
-        </div>
-        <h1 id="result"></h1>
-        <div class="btn-group">
-            <button type="button" class="btn btn-lg btn-default">Choose an action</button>
-            <button type="button" class="btn btn-lg btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a id="add" onclick="calculate(event)">Add</a></li>
-                <li><a id="sub" onclick="calculate(event)">Subtract</a></li>
-                <li><a id="mult" onclick="calculate(event)">Multiply</a></li>
-                <li><a id="div" onclick="calculate(event)">Divide</a></li>
-            </ul>
-        </div>
-        <button id="create" class="btn btn-lg" style="background:#00FF7F; margin-left:20px" onclick="create()">Generate fields</button>
-        <div id="container" class="col-md-3" style="margin-top:30px"> </div>
-        <div id="container2" class="col-md-3" style="margin-top:30px"> </div>
-        <div id="container3" class="col-md-3" style="margin-top:30px"> </div>
-    </div>
+  <div id="root"></div>
 <script>
 function calculate(e) {
   var x = document.getElementById("first").value;
@@ -46,11 +20,11 @@ function calculate(e) {
     case 'add': text = Number(x) + Number(y)
     break;
     case 'mult': text = Number(x) * Number(y)
-    break;      
+    break;
     case 'sub': text = Number(x) - Number(y)
-    break;      
+    break;
     case 'div': text = Number(x) / Number(y)
-    break;      
+    break;
   }
   if (x === '' || y === '') {
     text = "Please enter BOTH numbers";
@@ -70,30 +44,30 @@ function create() {
         var input = document.createElement("input");
         input.type = "number";
         input.id = "number" + i;
-        input.value = Math.floor(1+Math.random()*99);          
-        input.className = "form-control";    
+        input.value = Math.floor(1+Math.random()*99);
+        input.className = "form-control";
         container.appendChild(input);
         container.appendChild(document.createElement("br"));
-        
+
         var action = document.createElement("input");
         action.type = "text";
         action.value = callRandomFunction();
         action.id = "action" + i;
-        action.className = "form-control";    
+        action.className = "form-control";
         container2.appendChild(action);
-        container2.appendChild(document.createElement("br")); 
+        container2.appendChild(document.createElement("br"));
         };
     container2.removeChild(container2.lastChild);
     container2.removeChild(container2.lastChild);
-    
-    
-    }  
-    
-    
+
+
+    }
+
+
     function callRandomFunction() {
         var random = Math.floor(Math.random()*3 +1);
         var text = '';
-        switch(random){    
+        switch(random){
         case 1:
         text = 'add'
         break;
@@ -106,9 +80,92 @@ function create() {
         case 4:
         text = 'div'
         break;
-        } 
+        }
         return text;
-    }   
-</script>    
-</body>        
+    }
+</script>
+<script type="text/babel">
+
+  class InputWithLabel extends React.Component {
+    render() {
+      return (
+        <div className="form-group">
+          <label className="pull-left">{this.props.label}</label>
+          <input type="number" className="form-control" id={this.props.id} onChange={this.props.handleChange} />
+        </div>
+      )
+    }
+  }
+  class Calculator extends React.Component {
+    constructor(props, context) {
+      super(props, context);
+      this.state = {
+        first: '',
+        second: '',
+        result: ''
+      };
+    }
+
+    handleClick(e) {
+      const {first, second} = this.state;
+      let result;
+
+      switch (e.target.id) {
+        case '1': result = first + second
+          break;
+        case '2': result = first - second
+          break;
+        case '3': result = first * second
+          break;
+        case '4': result = first / second
+          break;
+      }
+      this.setState({result: result});
+    }
+
+    handleChange(e) {
+      let value = parseInt(e.target.value);
+      let id = e.target.id;
+      this.setState({[id]: value});
+    }
+
+    render() {
+      return (
+        <div className="col-md-4 col-md-offset-4">
+          <InputWithLabel label="First number" id="first" handleChange={this.handleChange.bind(this)} />
+          <InputWithLabel label="Second number" id="second" handleChange={this.handleChange.bind(this)} />
+          <div className="btn-group">
+            <button type="button" className="btn btn-default">Choose an action</button>
+            <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span className="caret"></span>
+              <span className="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul className="dropdown-menu">
+              <li><a id="1" onClick={this.handleClick.bind(this)}>+</a></li>
+              <li><a id="2" onClick={this.handleClick.bind(this)}>-</a></li>
+              <li><a id="3" onClick={this.handleClick.bind(this)}>*</a></li>
+              <li><a id="4" onClick={this.handleClick.bind(this)}>/</a></li>
+            </ul>
+          </div>
+          <div className="form-group">
+            {this.state.result}
+          </div>
+        </div>
+      );
+    }
+  };
+
+  // ReactDOM.render(
+  //   <Calculator />,
+  //   document.getElementById('root')
+  // );
+
+  ReactDOM.render(
+    <Generator />,
+    document.getElementById('root')
+  );
+
+
+</script>
+</body>
 </html>
