@@ -160,6 +160,51 @@ function create() {
   //   document.getElementById('root')
   // );
 
+
+  class GeneratedInputs extends React.Component {
+    render() {
+      return (
+        <input type="number" className="form-control" />
+      );
+    }
+  }
+
+
+  class Generator extends React.Component {
+    constructor(props, context) {
+      super(props, context);
+      this.state = {
+        numFields: '',
+        inputFields: []
+      };
+    }
+
+    handleChange(e) {
+      let value = parseInt(e.target.value);
+      this.setState({numFields: value});
+    }
+
+    handleClick() {
+      let array = [];
+      for (var i=0; i < this.state.numFields; i++) {
+        array.push(<GeneratedInputs key={i}/>)
+      }
+      this.setState({inputFields: array})
+    }
+
+    render() {
+      return (
+        <div className="col-md-4 col-md-offset-4" >
+          <InputWithLabel label="Fields number" handleChange={this.handleChange.bind(this)} />
+          <button onClick={this.handleClick.bind(this)}>Generate</button>
+          <div>
+            {this.state.inputFields}
+          </div>
+        </div>
+      )
+    };
+  }
+
   ReactDOM.render(
     <Generator />,
     document.getElementById('root')
