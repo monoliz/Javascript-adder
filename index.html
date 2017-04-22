@@ -155,61 +155,132 @@ function create() {
     }
   };
 
-  // ReactDOM.render(
-  //   <Calculator />,
-  //   document.getElementById('root')
-  // );
+//   ReactDOM.render(
+//     <Calculator />,
+//     document.getElementById('root')
+//   );
 
 
-  class GeneratedInputs extends React.Component {
-    render() {
-      return (
-        <input type="number" className="form-control" />
-      );
+
+class GeneratedInputs extends React.Component {
+
+handleOperation(e) {
+    var x = document.getElementById('ch' + this.props.id);
+    switch (e.target.id) {     
+        case '1': x.innerHTML = '+'
+        break;
+        case '2': x.innerHTML = '-'
+        break;
+        case '3': x.innerHTML = '*'
+        break;
+        case '4': x.innerHTML = '/'
+        break;
     }
-  }
-
-
-  class Generator extends React.Component {
-    constructor(props, context) {
-      super(props, context);
-      this.state = {
-        numFields: '',
-        inputFields: []
-      };
-    }
-
-    handleChange(e) {
-      let value = parseInt(e.target.value);
-      this.setState({numFields: value});
-    }
-
-    handleClick() {
-      let array = [];
-      for (var i=0; i < this.state.numFields; i++) {
-        array.push(<GeneratedInputs key={i}/>)
-      }
-      this.setState({inputFields: array})
-    }
-
-    render() {
-      return (
-        <div className="col-md-4 col-md-offset-4" >
-          <InputWithLabel label="Fields number" handleChange={this.handleChange.bind(this)} />
-          <button onClick={this.handleClick.bind(this)}>Generate</button>
-          <div>
-            {this.state.inputFields}
-          </div>
+}
+    
+render() {  
+    var selector = this.props.last ? '' : (
+        <div className="btn-group">
+            <button type="button" id={'ch' + this.props.id} className="btn btn-default">Choose an action</button>
+            <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span className="caret"></span>
+            <span className="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul className="dropdown-menu">
+            <li><a id="1" onClick={this.handleOperation.bind(this)}>+</a></li>
+            <li><a id="2" onClick={this.handleOperation.bind(this)}>-</a></li>
+            <li><a id="3" onClick={this.handleOperation.bind(this)}>*</a></li>
+            <li><a id="4" onClick={this.handleOperation.bind(this)}>/</a></li>
+            </ul>
         </div>
-      )
+    ) 
+    return (
+        <div>       
+            <input type="number" className="form-control" id={'in' + this.props.id} value={Math.floor(Math.random()*99 + 1)}/>     
+            {selector}      
+        </div>
+    )
+    }
+}
+
+class Generator extends React.Component {
+constructor(props, context) {
+    super(props, context);
+    this.state = {
+        numFields: '',
+        inputFields: [] 
     };
+}
+      
+handleChange(e) {
+  let value = parseInt(e.target.value);
+  this.setState({numFields: value});
+}
+
+handleClick() {    
+  let array = [];
+  for (var i=0; i < this.state.numFields; i++) {
+      if (i === (this.state.numFields-1)) 
+      {array.push(<GeneratedInputs key={i} id={i} last={true} />)} 
+      else 
+      { array.push(<GeneratedInputs key={i} id={i} last={false} />)}
   }
+  this.setState({inputFields: array})
+}
+    
+makeCalculations () {
+    var result = 0;
+    for (var i=0; i < this.state.numFields -1; i++) {
+        var a,b,c ; 
+        a = parseInt(document.getElementById('in' + i).value); 
+        b = parseInt(document.getElementById('in' + (i+1)).value);
+        c = document.getElementById('ch'+i).innerHTML
+        if (i === 0) {
+            switch (c) {
+            case '+': result = a + b
+              break;
+            case '-': result = a - b
+              break;
+            case '*': result = a * b
+              break;
+            case '/': result = a / b
+              break;
+            case 'Choose an action': result = 'Please, choose all actions.'
+              break;
+            }
+        } else {
+            switch (c) {
+            case '+': result += b
+              break;
+            case '-': result -= b
+              break;
+            case '*': result *= b
+              break;
+            case '/': result /= b
+              break;
+            case 'Choose an action': result = 'Please, choose all actions.'
+              break;
+            }
+        }
+    this.setState({result: result});
+    }  
+}
 
-  ReactDOM.render(
-    <Generator />,
-    document.getElementById('root')
-  );
+render() {
+    return (
+        <div className="col-md-4 col-md-offset-4" >
+            <InputWithLabel label="Fields number" handleChange={this.handleChange.bind(this)} />
+            <div> {this.state.result}</div>         
+            <button onClick={this.handleClick.bind(this)}>Generate</button>
+            <button onClick={this.makeCalculations.bind(this)}>Calculate</button>  
+            <div> {this.state.inputFields} </div>
+        </div>
+    )}
+}
 
+ReactDOM.render(
+<Generator />,
+document.getElementById('root'));
 
 </script>
 </body>
