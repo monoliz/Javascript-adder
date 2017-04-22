@@ -202,79 +202,78 @@ function create() {
   }
 
   class Generator extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      numFields: '',
-      inputFields: []
-    };
-  }
-
-  handleChange(e) {
-    let value = parseInt(e.target.value);
-    this.setState({numFields: value});
-  }
-
-  handleClick() {
-    let array = [];
-    for (var i=0; i < this.state.numFields; i++) {
-      if (i === (this.state.numFields-1)) {
-        array.push(<GeneratedInputs key={i} id={i} last={true} />)
-      } else {
-        array.push(<GeneratedInputs key={i} id={i} last={false} />)
-      }
+    constructor(props, context) {
+      super(props, context);
+      this.state = {
+        numFields: '',
+        inputFields: []
+      };
     }
-    this.setState({inputFields: array})
-  }
 
-  makeCalculations () {
-    var result = 0;
-    for (var i=0; i < this.state.numFields -1; i++) {
-      var a,b,c ;
-      a = parseInt(document.getElementById('in' + i).value);
-      b = parseInt(document.getElementById('in' + (i+1)).value);
-      c = document.getElementById('ch'+i).innerHTML
-      if (i === 0) {
-        switch (c) {
-        case '+': result = a + b
-          break;
-        case '-': result = a - b
-          break;
-        case '*': result = a * b
-          break;
-        case '/': result = a / b
-          break;
-        case 'Choose an action': result = 'Please, choose all actions.'
-          break;
-        }
-      } else {
-        switch (c) {
-        case '+': result += b
-          break;
-        case '-': result -= b
-          break;
-        case '*': result *= b
-          break;
-        case '/': result /= b
-          break;
-        case 'Choose an action': result = 'Please, choose all actions.'
-          break;
+    handleChange(e) {
+      let value = parseInt(e.target.value);
+      this.setState({numFields: value});
+    }
+    handleClick() {
+      let array = [];
+      for (var i=0; i < this.state.numFields; i++) {
+        if (i === (this.state.numFields-1)) {
+          array.push(<GeneratedInputs key={i} id={i} last={true} />)
+        } else {
+          array.push(<GeneratedInputs key={i} id={i} last={false} />)
         }
       }
-      this.setState({result: result});
+      this.setState({inputFields: array})
     }
-  }
+    makeCalculations () {
+      var result = 0;
+      for (var i=0; i < this.state.numFields -1; i++) {
+        var a,b,c ;
+        a = parseInt(document.getElementById('in' + i).value);
+        b = parseInt(document.getElementById('in' + (i+1)).value);
+        c = document.getElementById('ch'+i).innerHTML
+        if (i === 0) {
+          switch (c) {
+          case '+': result = a + b
+            break;
+          case '-': result = a - b
+            break;
+          case '*': result = a * b
+            break;
+          case '/': result = a / b
+            break;
+          case 'Choose an action': result = 'Please, choose all actions.'
+            break;
+          }
+        } else {
+          switch (c) {
+          case '+': result += b
+            break;
+          case '-': result -= b
+            break;
+          case '*': result *= b
+            break;
+          case '/': result /= b
+            break;
+          case 'Choose an action': result = 'Please, choose all actions.'
+            break;
+          }
+        }
+        this.setState({result: result});
+      }
+    }
 
-  render() {
-    return (
-      <div className="col-md-4 col-md-offset-4" >
-        <InputWithLabel label="Fields number" handleChange={this.handleChange.bind(this)} />
-        <div> {this.state.result}</div>
-        <button onClick={this.handleClick.bind(this)}>Generate</button>
-        <button onClick={this.makeCalculations.bind(this)}>Calculate</button>
-        <div> {this.state.inputFields} </div>
-      </div>
-    )}
+    render() {
+      return (
+        <div className="col-md-4 col-md-offset-4" >
+          <InputWithLabel label="Fields number" handleChange={this.handleChange.bind(this)} />
+          <div> {this.state.result}</div>
+          <button onClick={this.handleClick.bind(this)}>Generate</button>
+          <button onClick={this.makeCalculations.bind(this)}>Calculate</button>
+          <div> {this.state.inputFields} </div>
+        </div>
+      )
+    }
   }
 
   ReactDOM.render(<Generator />, document.getElementById('root'));
