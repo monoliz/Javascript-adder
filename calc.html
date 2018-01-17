@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Calculator Task</title>
+</head>
+<style>
+	.input-div {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		flex-direction: column;
+		height: 150px;
+	}
+</style>
+<body>
+	<div class="input-div" onchange="check(event)">	
+		<input id="first" type="number">
+		<span style="font-size: 20px;font-weight: 800">+</span>
+		<input id="second" type="number" >
+		<button onclick="add()">Add numbers</button>
+		<span id="result">RESULT</span>
+	</div>
+</body>
+<script>
+	let f = document.querySelector('#first')
+	let s = document.querySelector('#second')
+	function add() {
+		let first = +f.value, second = +s.value
+		let res = first && second ? first + second : 'Enter both numbers'
+		document.querySelector('#result').innerText = res
+	}
+	function check(e) {
+		if(/\./g.test(e.target.value)) e.target.value = Math.trunc(e.target.value)
+	}
+</script>
+</html>
