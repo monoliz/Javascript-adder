@@ -83,12 +83,11 @@
 	const i = document.querySelector('#img')
 	const r = document.querySelector('#result')
 	const img = document.createElement("img")
-	img.setAttribute('src','http://78.media.tumblr.com/a9d6b265d1f45ce6308ee680cfd2049f/tumblr_ne9n48NBbg1tzms7wo1_400.gif')
-	img.setAttribute('width', '200px')
+	img.setAttribute('src','https://image01.ipracticemath.com/content/imageslm/integer/integers.png')
 
 	function add() {
 		let first = +f.value, second = +s.value
-		let res = first && second ? first + second : 'Будь ласка, input TWO integers'
+		let res = first && second ? first + second : 'Be kind, provide two integers'
 		r.innerText = res
 		if(typeof res === 'string') i.appendChild(img)
 		else if(i.hasChildNodes()) i.removeChild(img)	
