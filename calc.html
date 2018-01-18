@@ -2,36 +2,100 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Calculator Task</title>
+	<title>cAlc</title>
+	<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
 </head>
 <style>
 	.input-div {
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-		flex-direction: column;
-		height: 150px;
+		margin-top: 40px;
+		text-align: center;
+		font-size: 2.5rem;
+	}
+	h3 {
+		    color: #f35626;
+    background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: hue 60s infinite linear;
+	}
+	@-webkit-keyframes hue {
+	  from {
+	    -webkit-filter: hue-rotate(0deg);
+	  }
+	  to {
+	    -webkit-filter: hue-rotate(-360deg);
+	  }
+	}
+	div > * {
+		font-family: 'Fjalla One', sans-serif;
+	}
+	input {
+		background: none;
+		text-align: center;
+		border: none;
+		border-bottom: 3px solid indigo;
+		outline: none;
+		font-size: 2.5rem;
+		width: 20%;
+		margin: 20px auto 20px auto;
+		display: block;
+	}
+	span {
+		font-size: 1.8rem;
+		display: inline-block;
+		margin: 10px auto 0 auto;
+	}
+	#second {
+		margin-top: 10px;
+	}
+	button {
+		background: none;
+		outline: none;
+		border: 2px dashed navy;
+		border-radius: 5%;
+		font-size: 2rem;
+		margin-bottom: 20px;
+		box-sizing: border-box;
+	}
+	button:hover, button:focus, button:active {
+		border: none;
+		background: navy;
+		color: white;
+	}
+	#result {
+		margin-bottom: 20px;
 	}
 </style>
 <body>
-	<div class="input-div" onchange="check(event)">	
-		<input id="first" type="number">
-		<span style="font-size: 20px;font-weight: 800">+</span>
-		<input id="second" type="number" >
-		<button onclick="add()">Add numbers</button>
-		<span id="result">RESULT</span>
+	<div class="input-div" onkeydown="check(event)" >
+		<h3>Supar Calcalatar</h3>	
+		<input id="first" type="number" tabindex="1">
+		<span>➕</span>
+		<input id="second" type="number" tabindex="2">
+		<button onclick="add()" tabindex="3" onkeydown="if(event.keyCode === 13) this.click()">Add numbers</button>
+		<div id="result">∑</div>
+		<div id="img"></div>
 	</div>
 </body>
 <script>
-	let f = document.querySelector('#first')
-	let s = document.querySelector('#second')
+	const f = document.querySelector('#first')
+	const s = document.querySelector('#second')
+	const i = document.querySelector('#img')
+	const r = document.querySelector('#result')
+	const img = document.createElement("img")
+	img.setAttribute('src','http://78.media.tumblr.com/a9d6b265d1f45ce6308ee680cfd2049f/tumblr_ne9n48NBbg1tzms7wo1_400.gif')
+	img.setAttribute('width', '200px')
+
 	function add() {
 		let first = +f.value, second = +s.value
-		let res = first && second ? first + second : 'Enter both numbers'
-		document.querySelector('#result').innerText = res
+		let res = first && second ? first + second : 'Будь ласка, input TWO integers'
+		r.innerText = res
+		if(typeof res === 'string') i.appendChild(img)
+		else if(i.hasChildNodes()) i.removeChild(img)	
 	}
 	function check(e) {
-		if(/\./g.test(e.target.value)) e.target.value = Math.trunc(e.target.value)
+		let c = e.keyCode		
+		if((c < 37 && c != 8 && c != 9) || (c > 40 && c < 48 && c != 46) || (c > 57 && c < 96) || (c > 105 && c != 109 && c != 189)) e.preventDefault()
 	}
 </script>
 </html>
